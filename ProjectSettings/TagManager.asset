@@ -12,6 +12,7 @@ TagManager:
   - ElementalText
   - player
   - enemy
+  - CurrentEnemy
   layers:
   - Default
   - TransparentFX

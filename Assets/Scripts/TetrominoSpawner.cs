@@ -6,7 +6,6 @@ public class TetrominoSpawner : MonoBehaviour
 {
     public GameObject[] Tetrominoes;
 
-
     // Start is called before the first frame update
     void Start()
     {

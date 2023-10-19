@@ -7,7 +7,12 @@ using UnityEngine.UI;
 public class HealthManager : MonoBehaviour
 {
     public Image healthBar;
-    public float healthAmount = 100f;
+    public float healthAmount;
+
+    void Start()
+    {
+
+    }
 
     public void TakeDamage(float damage)
     {

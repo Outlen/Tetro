@@ -5,11 +5,14 @@ using UnityEngine.SceneManagement;
 
 public class PlayerEncounter : MonoBehaviour
 {
+    public GameManager GameManager;
+
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.gameObject.tag == "enemy")
         {
-            SceneManager.LoadScene("Battle");
+            collision.gameObject.tag = "CurrentEnemy";
+            GameManager.EnterBattleScene();
         }
     }
 }
