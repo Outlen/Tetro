@@ -15,7 +15,7 @@ public class TetrisBlock : MonoBehaviour
     public Vector3 rotationPoint;
 
     private float previousTime;
-    public float fallTime = 0.8f;
+    public float fallTime = 0.2f;
 
     public static int height = 20;
     public static int width = 10;
@@ -34,50 +34,46 @@ public class TetrisBlock : MonoBehaviour
         textElement = FindObjectOfType<TextMeshProUGUI>();
         enemy = GameObject.FindGameObjectWithTag("CurrentEnemy"); 
         player = GameObject.FindGameObjectWithTag("player");
-
     }
 
     // Update is called once per frame
     void Update()
     { 
-        Debug.Log(over);
         UnitStats enemyStats = enemy.GetComponent<UnitStats>();
-        if (enemyStats.health == 0)
-        {
-            over = true;
-            Debug.Log("Over");
-        }
-
 
         CheckElement();
 
-        if(Input.GetKeyDown(KeyCode.LeftArrow))
+        if (GameManager.inputsEnabled)
         {
-            transform.position += new Vector3(-1, 0, 0);
-            if (!ValidMove())
+            if(Input.GetKeyDown(KeyCode.LeftArrow))
             {
-                transform.position -= new Vector3(-1, 0, 0);
+                transform.position += new Vector3(-1, 0, 0);
+                if (!ValidMove())
+                {
+                    transform.position -= new Vector3(-1, 0, 0);
+                }
             }
-        }
 
-        else if(Input.GetKeyDown(KeyCode.RightArrow))
-        {
-            transform.position += new Vector3(1, 0, 0);
-            if (!ValidMove())
+            else if(Input.GetKeyDown(KeyCode.RightArrow))
             {
-                transform.position -= new Vector3(1, 0, 0);
+                transform.position += new Vector3(1, 0, 0);
+                if (!ValidMove())
+                {
+                    transform.position -= new Vector3(1, 0, 0);
+                }
             }
-        }
 
-        else if(Input.GetKeyDown(KeyCode.UpArrow))
-        {
-            //rotate
-            transform.RotateAround(transform.TransformPoint(rotationPoint), new Vector3(0, 0, 1), 90);
-            if (!ValidMove())
+            else if(Input.GetKeyDown(KeyCode.UpArrow))
             {
-                transform.RotateAround(transform.TransformPoint(rotationPoint), new Vector3(0, 0, 1), -90);
+                //rotate
+                transform.RotateAround(transform.TransformPoint(rotationPoint), new Vector3(0, 0, 1), 90);
+                if (!ValidMove())
+                {
+                    transform.RotateAround(transform.TransformPoint(rotationPoint), new Vector3(0, 0, 1), -90);
+                }
             }
         }
+        
 
         if (!over)
         {
@@ -90,7 +86,11 @@ public class TetrisBlock : MonoBehaviour
                     AddToGrid();
                     CheckForLines();
                     this.enabled = false;
-                    FindObjectOfType<TetrominoSpawner>().NewTetromino();
+                    //making sure this get called only if enemy is alive
+                    if(enemy.GetComponent<UnitStats>().currentHealth > 0 && player.GetComponent<UnitStats>().currentHealth > 0)
+                    {
+                        FindObjectOfType<TetrominoSpawner>().NewTetromino();
+                    }    
                 }
                 previousTime = Time.time; 
             }
@@ -147,6 +147,7 @@ public class TetrisBlock : MonoBehaviour
             Destroy(grid[j, i].gameObject);
             grid[j, i] = null;
         }
+        
         DealDamage();
         ResetElement();
     }
@@ -175,6 +176,13 @@ public class TetrisBlock : MonoBehaviour
             int roundedY = Mathf.RoundToInt(children.transform.position.y);
 
             grid[roundedX, roundedY] = children;
+
+            if (roundedY >= height - 3)
+            {
+                player.GetComponent<UnitStats>().TakeDamage(100000);
+                over = true;
+                Exit();
+            }
         }
     }
 
@@ -271,8 +279,38 @@ public class TetrisBlock : MonoBehaviour
                 break;
         }
         float damage = playerStats.attack * elemModifier;
+        playerStats.EnterAttack();
         enemyStats.TakeDamage(damage);
-        Debug.Log(enemyStats.health);
+        playerStats.Heal(playerStats.mana);
+
+
+        //if enemy is dead we destroy all blocks and exit battlescene
+        if(enemyStats.currentHealth <= 0)
+        {
+            over = true;
+            Finish();
+        }
     }
+
+    void Finish()
+    {
+        TetrisBlock[] tetrisBlocks = FindObjectsOfType<TetrisBlock>();
+        foreach (TetrisBlock block in tetrisBlocks)
+        {
+            Destroy(block.gameObject);
+        }
+        FindObjectOfType<GameManager>().ExitBattleScene();
+    }
+
+    void Exit()
+    {
+        TetrisBlock[] tetrisBlocks = FindObjectsOfType<TetrisBlock>();
+        foreach (TetrisBlock block in tetrisBlocks)
+        {
+            Destroy(block.gameObject);
+        }
+        FindObjectOfType<GameManager>().Dead();
+    }
+
 }
    

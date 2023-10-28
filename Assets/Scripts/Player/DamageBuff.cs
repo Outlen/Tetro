@@ -9,7 +9,15 @@ public class DamageBuff : PowerupEffect
     public float amountHealthLoss;
     public override void Apply(GameObject target)
     {
-        target.GetComponent<UnitStats>().attack += amountDamage;
-        target.GetComponent<UnitStats>().currentHealth -= amountHealthLoss;
+        if (target.GetComponent<UnitStats>().currentHealth - amountHealthLoss <= 0)
+        {
+            Debug.Log("Not enough health!");
+        }
+        else
+        {
+            target.GetComponent<UnitStats>().attack += amountDamage;
+            target.GetComponent<UnitStats>().currentHealth -= amountHealthLoss;
+        }
+        
     }
 }
