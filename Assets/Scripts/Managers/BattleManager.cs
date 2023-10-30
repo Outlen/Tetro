@@ -9,7 +9,7 @@ public class BattleManager : MonoBehaviour
     public GameObject player;
     private UnitStats playerStats;
 
-    public PowerupEffect PowerupEffect;
+    public PowerupEffect powerupDamage, powerupIceStorm;
 
 
 
@@ -25,7 +25,12 @@ public class BattleManager : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.LeftShift))
         {
-            PowerupEffect.Apply(player);
+            powerupDamage.Apply(player);
+        }
+
+        if (Input.GetKeyDown(KeyCode.RightShift))
+        {
+            powerupIceStorm.Apply(player);
         }
     }
 }

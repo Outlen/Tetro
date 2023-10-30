@@ -6,6 +6,8 @@ using TMPro;
 
 public class TetrisBlock : MonoBehaviour
 {
+    [SerializeField] private AudioClip soundBrick, soundWater, soundFire, soundGrass;
+
     public bool over;
     public GameObject enemy;
     public GameObject player;
@@ -31,7 +33,7 @@ public class TetrisBlock : MonoBehaviour
     void Start()
     {
         over = false;
-        textElement = FindObjectOfType<TextMeshProUGUI>();
+        textElement = GameObject.FindWithTag("ElementalText").GetComponent<TextMeshProUGUI>();
         enemy = GameObject.FindGameObjectWithTag("CurrentEnemy"); 
         player = GameObject.FindGameObjectWithTag("player");
     }
@@ -184,6 +186,7 @@ public class TetrisBlock : MonoBehaviour
                 Exit();
             }
         }
+        SoundManager.Instance.PlaySound(soundBrick);
     }
 
     void CheckElement()
@@ -241,6 +244,7 @@ public class TetrisBlock : MonoBehaviour
                 {
                     elemModifier = 0.5f;
                 }
+                SoundManager.Instance.PlaySound(soundWater);
                 break;
             
             case "fire":
@@ -256,6 +260,7 @@ public class TetrisBlock : MonoBehaviour
                 {
                     elemModifier = 5f; 
                 }
+                SoundManager.Instance.PlaySound(soundFire);
                 break;
 
             case "grass":
@@ -271,6 +276,7 @@ public class TetrisBlock : MonoBehaviour
                 {
                     elemModifier = 1f; 
                 }
+                //SoundManager.Instance.PlaySound(soundGrass);
                 break;
   
             default:

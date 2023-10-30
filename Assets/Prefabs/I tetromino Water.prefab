@@ -132,9 +132,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 47901cc85ba9beb4693171fdf3132c13, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  soundBrick: {fileID: 8300000, guid: 25aa54b946366314bad1e53e26f5c53f, type: 3}
+  over: 0
+  enemy: {fileID: 0}
+  player: {fileID: 0}
+  elemModifier: 0
+  textElement: {fileID: 0}
   rotationPoint: {x: 0, y: 0, z: 0}
   fallTime: 0.8
-  modifier: 0
 --- !u!1 &499818778370832038
 GameObject:
   m_ObjectHideFlags: 0

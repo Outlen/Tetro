@@ -16,10 +16,11 @@ public class UnitStats : MonoBehaviour
     public float maxHealth;
     public float mana;
     public float attack;
-    public float defense;
     public float speed;
     public string element;
     public int expAmount;
+    public int level;
+
 
 
     public GameObject lootPrefab;
@@ -54,8 +55,10 @@ public class UnitStats : MonoBehaviour
 
     public void LevelUp()
     {
+        level++;
         maxHealth = maxHealth * 1.2f;
         attack = attack * 1.2f;
+        mana = mana * 1.2f;
     }
 
     public void EnterIdle()

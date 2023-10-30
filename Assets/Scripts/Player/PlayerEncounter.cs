@@ -14,6 +14,7 @@ public class PlayerEncounter : MonoBehaviour
         if (collision.gameObject.tag == "enemy")
         {
             collision.transform.position = enemyCombatPos.transform.position;
+            collision.gameObject.GetComponent<SpriteRenderer>().enabled = true;
             collision.gameObject.GetComponent<UnitStats>().EnterIdle();
             collision.gameObject.tag = "CurrentEnemy";
             GameManager.EnterBattleScene();
