@@ -9,10 +9,7 @@ public class BattleManager : MonoBehaviour
     public GameObject player;
     private UnitStats playerStats;
 
-    public PowerupEffect powerupDamage, powerupIceStorm;
-
-
-
+    public PowerupEffect powerupDamage, powerupIceStorm, powerupFireStorm, powerupGrassStorm;
     void Start()
     {
         playerStats = player.GetComponent<UnitStats>();
@@ -28,9 +25,26 @@ public class BattleManager : MonoBehaviour
             powerupDamage.Apply(player);
         }
 
-        if (Input.GetKeyDown(KeyCode.RightShift))
+        if (Input.GetKeyDown(KeyCode.Q))
         {
-            powerupIceStorm.Apply(player);
+            switch(playerStats.element)
+            {
+                case "water":
+                    powerupIceStorm.Apply(player);
+                    break;
+            
+                case "fire":
+                    powerupFireStorm.Apply(player);
+                    break;
+
+                case "grass":
+                    powerupGrassStorm.Apply(player);
+                    break;
+
+                default:
+                    break;
+            }
         }
     }
+    
 }

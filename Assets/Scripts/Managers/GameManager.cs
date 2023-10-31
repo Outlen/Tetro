@@ -19,6 +19,12 @@ public class GameManager : MonoBehaviour
 
     public static bool inputsEnabled = true;
 
+
+    void Start()
+    {
+
+    }
+
     public void EnterBattleScene()
     {
         StartCoroutine("Enter");

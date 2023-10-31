@@ -2,10 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(menuName = "Powerups/IceStorm")]
-public class IceStorm : PowerupEffect
+[CreateAssetMenu(menuName = "Powerups/FireStorm")]
+public class FireStorm : PowerupEffect
 {
-    public Sprite waterSprite;
+    public Sprite fireSprite;
     public float amountHealthLoss;
     public override void Apply(GameObject target)
     {
@@ -16,23 +16,21 @@ public class IceStorm : PowerupEffect
         else
         {
             target.GetComponent<UnitStats>().currentHealth -= amountHealthLoss;
-            GameObject[] fireCubes = GameObject.FindGameObjectsWithTag("fire");
+            // get all of the other element cubes
+            GameObject[] waterCubes = GameObject.FindGameObjectsWithTag("water");
             GameObject[] grassCubes = GameObject.FindGameObjectsWithTag("grass");
-            foreach (GameObject cube in fireCubes)
+
+            // change them all to fire 
+            foreach (GameObject cube in waterCubes)
             {
-                cube.tag = "water";
-                cube.GetComponent<SpriteRenderer>().sprite = waterSprite;
+                cube.tag = "fire";
+                cube.GetComponent<SpriteRenderer>().sprite = fireSprite;
             }
             foreach (GameObject cube in grassCubes)
             {
-                cube.tag = "water";
-                cube.GetComponent<SpriteRenderer>().sprite = waterSprite;
+                cube.tag = "fire";
+                cube.GetComponent<SpriteRenderer>().sprite = fireSprite;
             }
-            target.GetComponent<UnitStats>().currentHealth -= amountHealthLoss;
-        }
-        
+        }   
     }
-
-
-        
 }

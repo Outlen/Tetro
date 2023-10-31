@@ -36,6 +36,7 @@ public class TetrisBlock : MonoBehaviour
         textElement = GameObject.FindWithTag("ElementalText").GetComponent<TextMeshProUGUI>();
         enemy = GameObject.FindGameObjectWithTag("CurrentEnemy"); 
         player = GameObject.FindGameObjectWithTag("player");
+
     }
 
     // Update is called once per frame
@@ -146,7 +147,7 @@ public class TetrisBlock : MonoBehaviour
     {
         for (int j = 0; j < width; j++)
         {
-            Destroy(grid[j, i].gameObject);
+            DestroyImmediate(grid[j, i].gameObject);
             grid[j, i] = null;
         }
         
@@ -194,6 +195,10 @@ public class TetrisBlock : MonoBehaviour
         int waterBlocks = GameObject.FindGameObjectsWithTag("water").Length;
         int fireBlocks = GameObject.FindGameObjectsWithTag ("fire").Length;
         int grassBlocks = GameObject.FindGameObjectsWithTag ("grass").Length;
+
+        Debug.Log("Water " + waterBlocks.ToString());
+        Debug.Log("Fire " + fireBlocks.ToString());
+        Debug.Log("Grass " + grassBlocks.ToString());
 
 
         if (waterBlocks > fireBlocks && waterBlocks > grassBlocks)
