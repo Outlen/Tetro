@@ -51,14 +51,14 @@ MonoBehaviour:
   soundBrick: {fileID: 8300000, guid: 25aa54b946366314bad1e53e26f5c53f, type: 3}
   soundWater: {fileID: 8300000, guid: 9bf1d9a96913ab84ab87fc69d2eefd77, type: 3}
   soundFire: {fileID: 8300000, guid: 63f2f7d77707b884c803c1dd7a7e8eae, type: 3}
-  soundGrass: {fileID: 0}
+  soundGrass: {fileID: 8300000, guid: 66033749ff7d09b4488bdd23ee61a42c, type: 3}
   over: 0
   enemy: {fileID: 0}
   player: {fileID: 0}
   elemModifier: 0
   textElement: {fileID: 0}
   rotationPoint: {x: 0, y: 0, z: 0}
-  fallTime: 0.8
+  fallTime: 0.6
 --- !u!1 &890618181565602513
 GameObject:
   m_ObjectHideFlags: 0

@@ -5,6 +5,8 @@ using UnityEngine.UI;
 
 public class BattleManager : MonoBehaviour
 {
+    private bool isIceActive = false;
+    private bool isBuffActive = false;
     public Image playerHealthBar;
     public GameObject player;
     private UnitStats playerStats;
@@ -22,7 +24,11 @@ public class BattleManager : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.LeftShift))
         {
-            powerupDamage.Apply(player);
+            if (!isBuffActive)
+            {
+                StartCoroutine("DamageBuff");
+            }
+            
         }
 
         if (Input.GetKeyDown(KeyCode.Q))
@@ -30,7 +36,10 @@ public class BattleManager : MonoBehaviour
             switch(playerStats.element)
             {
                 case "water":
-                    powerupIceStorm.Apply(player);
+                    if (!isIceActive)
+                    {
+                        StartCoroutine("IceSkill");
+                    }
                     break;
             
                 case "fire":
@@ -46,5 +55,22 @@ public class BattleManager : MonoBehaviour
             }
         }
     }
-    
+
+    IEnumerator IceSkill()
+    {
+        isIceActive = true;
+        powerupIceStorm.Apply(player);
+        yield return new WaitForSeconds(10);
+        Time.timeScale += 0.5f;
+        isIceActive = false;
+    }    
+
+    IEnumerator DamageBuff()
+    {
+        isBuffActive = true;
+        powerupDamage.Apply(player);
+        yield return new WaitForSeconds(10);
+        isBuffActive = false;
+        playerStats.attack -= 2;
+    }    
 }

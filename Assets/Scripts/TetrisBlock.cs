@@ -17,7 +17,8 @@ public class TetrisBlock : MonoBehaviour
     public Vector3 rotationPoint;
 
     private float previousTime;
-    public float fallTime = 0.2f;
+    public float fallTime = 0.8f;
+
 
     public static int height = 20;
     public static int width = 10;
@@ -36,7 +37,7 @@ public class TetrisBlock : MonoBehaviour
         textElement = GameObject.FindWithTag("ElementalText").GetComponent<TextMeshProUGUI>();
         enemy = GameObject.FindGameObjectWithTag("CurrentEnemy"); 
         player = GameObject.FindGameObjectWithTag("player");
-
+        
     }
 
     // Update is called once per frame
@@ -80,7 +81,7 @@ public class TetrisBlock : MonoBehaviour
 
         if (!over)
         {
-            if (Time.time - previousTime > (Input.GetKey(KeyCode.DownArrow) ? fallTime / 10 : fallTime))
+            if (Time.time - previousTime > (Input.GetKey(KeyCode.DownArrow) ? fallTime / 6 : fallTime))
             {
                 transform.position += new Vector3(0, -1, 0);
                 if (!ValidMove())
@@ -126,7 +127,6 @@ public class TetrisBlock : MonoBehaviour
         {
             if(HasLines(i))
             {
-                //CheckElement();
                 DeleteLine(i);
                 RowDown(i);
             }
@@ -196,10 +196,6 @@ public class TetrisBlock : MonoBehaviour
         int fireBlocks = GameObject.FindGameObjectsWithTag ("fire").Length;
         int grassBlocks = GameObject.FindGameObjectsWithTag ("grass").Length;
 
-        Debug.Log("Water " + waterBlocks.ToString());
-        Debug.Log("Fire " + fireBlocks.ToString());
-        Debug.Log("Grass " + grassBlocks.ToString());
-
 
         if (waterBlocks > fireBlocks && waterBlocks > grassBlocks)
         {
@@ -219,6 +215,13 @@ public class TetrisBlock : MonoBehaviour
         {
             bias = "grass";
             textElement.text = "Grass";
+            textElement.color = new Color(201, 242, 155, 1);
+        }
+
+        if (grassBlocks == waterBlocks && grassBlocks == fireBlocks)
+        {
+            bias = "neutral";
+            textElement.text = "Neutral";
             textElement.color = new Color(21, 212, 0, 255);
         }
     }
@@ -322,6 +325,5 @@ public class TetrisBlock : MonoBehaviour
         }
         FindObjectOfType<GameManager>().Dead();
     }
-
 }
    

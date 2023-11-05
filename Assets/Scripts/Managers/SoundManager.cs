@@ -6,8 +6,7 @@ public class SoundManager : MonoBehaviour
 {
     public static SoundManager Instance;
 
-    [SerializeField] private AudioSource _musicSource, _effectsSource;
-
+    [SerializeField] private AudioSource _musicRoamSource, _musicFightSource, _effectsSource;
 
     void Awake()
     {
@@ -23,10 +22,30 @@ public class SoundManager : MonoBehaviour
         }
     }
 
+
     public void PlaySound(AudioClip clip)
     {
         _effectsSource.PlayOneShot(clip);
     }
 
+    public void PlayRoamBGM()
+    {
+        _musicRoamSource.Play();
+    }
+
+    public void PauseRoamBGM()
+    {
+        _musicRoamSource.Pause();
+    }
+
+    public void PlayFightBGM()
+    {
+        _musicFightSource.Play();
+    }
+
+    public void PauseFightBGM()
+    {
+        _musicFightSource.Pause();
+    }
 
 }

@@ -15,14 +15,33 @@ public class GameManager : MonoBehaviour
     public GameObject BattleManager;
     public GameObject Player;
     public Image EnemyHealthBar;
-    private Vector3 pos;
+    private Vector3 pos;    
+
 
     public static bool inputsEnabled = true;
-
+    public bool isFight = false;
 
     void Start()
     {
+        SoundManager.Instance.PlayRoamBGM();
+    }
 
+    void Update()
+    {
+        if(Input.GetKeyDown(KeyCode.DownArrow) && isFight == false)
+        {
+            Player.GetComponent<UnitStats>().RoamDown();
+        }
+
+        if(Input.GetKeyDown(KeyCode.UpArrow) && isFight == false)
+        {
+            Player.GetComponent<UnitStats>().RoamUp();
+        }
+
+        if(Input.GetKeyDown(KeyCode.A))
+        {
+            StartCoroutine("SpeedUp");
+        }
     }
 
     public void EnterBattleScene()
@@ -33,7 +52,6 @@ public class GameManager : MonoBehaviour
         BattleUI.SetActive(true);
         BattleManager.SetActive(true);
         EnemyHealthBar.fillAmount = 1;
-        Spawner.GetComponent<TetrominoSpawner>().NewTetromino();
     }
 
     public void ExitBattleScene()
@@ -44,19 +62,25 @@ public class GameManager : MonoBehaviour
     public void Dead()
     {
         StartCoroutine("GameOver");
-        
     }
+
 
     IEnumerator Enter()
     {
+        SoundManager.Instance.PauseRoamBGM();
+        SoundManager.Instance.PlayFightBGM();
+        isFight = true;
         Player.GetComponent<PlayerMovement>().enabled = false;
         pos = Player.transform.position;
         Player.transform.position = playerCombatPos.transform.position;
+        Player.GetComponent<UnitStats>().isFighting = true;
         Player.GetComponent<UnitStats>().EnterIdle();
+        
         FreeRoamCam.SetActive(false);
         BattleCam.SetActive(true);
         inputsEnabled = false;
         yield return new WaitForSeconds(1);
+        Spawner.GetComponent<TetrominoSpawner>().NewTetromino();
     }
 
     IEnumerator Exit()
@@ -67,6 +91,7 @@ public class GameManager : MonoBehaviour
         yield return new WaitForSeconds(3);
         Destroy(lastEnemy);
 
+        SoundManager.Instance.PauseFightBGM();
         //Put player back
         pos = pos + new Vector3(-3 , 0, 0);
         Player.transform.position = pos;
@@ -79,10 +104,15 @@ public class GameManager : MonoBehaviour
         BattleUI.SetActive(false);
         yield return new WaitForSeconds(1);
         Player.GetComponent<PlayerMovement>().enabled = true;
+        isFight = false;
+        Time.timeScale = 1;
+        SoundManager.Instance.PauseFightBGM();
+        SoundManager.Instance.PlayRoamBGM();
     }
 
     IEnumerator GameOver()
     {
+        Time.timeScale = 1;
         // play player dead animation
         Player.GetComponent<UnitStats>().EnterDead();
         yield return new WaitForSeconds(3);
@@ -106,6 +136,10 @@ public class GameManager : MonoBehaviour
         Spawner.SetActive(false);
         BattleUI.SetActive(false);
         Player.GetComponent<PlayerMovement>().enabled = true;
+        isFight = false;
+        SoundManager.Instance.PauseFightBGM();
+        SoundManager.Instance.PlayRoamBGM();
     }
+
 
 }

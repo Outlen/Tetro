@@ -12,6 +12,8 @@ public class UnitStats : MonoBehaviour
     public Image HealthBar;
 
     public bool isEnemy;
+    public bool isFighting;
+    
     public float currentHealth;
     public float maxHealth;
     public float mana;
@@ -28,6 +30,21 @@ public class UnitStats : MonoBehaviour
     void Start()
     {
         this.currentHealth = this.maxHealth;
+    }
+
+    void Update()
+    {
+        if (this.currentHealth > this.maxHealth)
+        {
+            this.currentHealth = this.maxHealth;
+        }
+
+        if (this.attack < 0)
+        {
+            this.attack = 2f;
+        }
+
+
     }
 
 
@@ -57,7 +74,7 @@ public class UnitStats : MonoBehaviour
     {
         level++;
         maxHealth = maxHealth * 1.2f;
-        attack = attack * 1.2f;
+        attack = attack * 1.5f;
         mana = mana * 1.2f;
     }
 
@@ -68,7 +85,10 @@ public class UnitStats : MonoBehaviour
 
     public void EnterAttack()
     {
-        animator.SetTrigger("Attack");
+        if (isFighting)
+        {
+            animator.SetTrigger("Attack");
+        }
     }
 
     public void EnterRoam()
@@ -79,6 +99,16 @@ public class UnitStats : MonoBehaviour
     public void EnterDead()
     {
         animator.SetTrigger("Dead");
+    }
+
+    public void RoamUp()
+    {
+        animator.SetTrigger("RoamUp");
+    }
+
+    public void RoamDown()
+    {
+        animator.SetTrigger("RoamDown");
     }
 
 }

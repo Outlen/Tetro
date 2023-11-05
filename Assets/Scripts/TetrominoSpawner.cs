@@ -11,6 +11,5 @@ public class TetrominoSpawner : MonoBehaviour
         Instantiate(Tetrominoes[Random.Range(0, Tetrominoes.Length)], transform.position, Quaternion.identity);
     }
 
-    
 
 }

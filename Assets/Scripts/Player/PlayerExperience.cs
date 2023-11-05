@@ -33,7 +33,7 @@ public class PlayerExperience : MonoBehaviour
             playerStats.LevelUp();
             currentLevel++;
             currentExperience = 0;
-            maxExperience += 100;
+            maxExperience += 60;
         }
     }
 
